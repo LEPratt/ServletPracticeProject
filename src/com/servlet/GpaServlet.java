@@ -12,40 +12,40 @@ import javax.servlet.http.HttpSession;
 
 import com.user.Student;
 
-/**
- * Servlet implementation class GpaServlet
- */
+
 @WebServlet("/GpaServlet")
 public class GpaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public GpaServlet() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	// doGet method for gpa
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//Assign variables
 		String grade1 = request.getParameter("gradeOne");
 		String grade2 = request.getParameter("gradeTwo");
 		String grade3 = request.getParameter("gradeThree");
 		int credit = 12;
+		
+		//Convert string data to double and perform calculations
 		double gpa = ((Double.parseDouble(grade1)*credit)+(Double.parseDouble(grade2)*credit)+(Double.parseDouble(grade3)*credit))/36;
+		
+		//Get session and student object
 		HttpSession session=request.getSession(true);
 		Student student = (Student)session.getAttribute("student");
+		
+		//Set student gpa and return student object to account.jsp
 		student.setGpa(gpa);
 		session.setAttribute("student", student);
 		RequestDispatcher rs = request.getRequestDispatcher("account.jsp");
 		rs.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

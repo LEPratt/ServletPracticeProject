@@ -16,52 +16,52 @@ import com.user.Course;
 import com.user.Student;
 import com.user.WeekDay;
 
-/**
- * Servlet implementation class SchedulerServlet
- */
+
 @WebServlet("/SchedulerServlet")
 public class SchedulerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+   //Default constructor
     public SchedulerServlet() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	//doGet statment
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Assign variables
+		
+		
+		
+				//Get session and student object
 				HttpSession session=request.getSession(true);
 				Student student = (Student)session.getAttribute("student");	
 				
+				//Assign variables
 				String[] weekdays =request.getParameterValues("weekday");				
 				ArrayList<WeekDay> occurrences = new ArrayList<WeekDay>();
+				
 				// Array to ArrayList Conversion 
 		        for (String temp : weekdays) 
 		        {		        	
 		        	occurrences.add(WeekDay.valueOf(temp));
 				}				
 				
+		        //Get the current course list from the student
 				ArrayList<Course> courses = student.getCourses();	
 				
-				Course course = new Course();				
-				
+				//Create new course and get valuse from course.jsp
+				Course course = new Course();
 				course.setCourseName(request.getParameter("courseName"));
 				course.setProfessor(request.getParameter("professor"));
 				course.setOccurrences(occurrences);
 				course.setStartDate(request.getParameter("startDate"));
 				course.setTime(request.getParameter("time"));
 				course.setRoomNumber(request.getParameter("roomNumber"));			
-								
+				
+				//Add the new course to the course list
 				courses.add(course);
 				
-				//student.setCourses(courses);
-				session.setAttribute("student", student);
-				
+				//Return the updated data to the course.jsp
+				session.setAttribute("student", student);				
 				RequestDispatcher rs = request.getRequestDispatcher("course.jsp");
 				rs.forward(request, response);
 				
@@ -69,9 +69,7 @@ public class SchedulerServlet extends HttpServlet {
 				
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
