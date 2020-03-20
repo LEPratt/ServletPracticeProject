@@ -125,8 +125,12 @@
                 <c:forEach var="course" items="${student.courses}">                
                     <tr>
                         <td><c:out value="${course.courseName}"/></td>
-                        <td><c:out value="${course.professor}"/></td>
-                        <td><c:out value="${course.occurrences}"/></td>
+                        <td><c:out value="${course.professor}"/></td>                        
+                        <td>
+                        <c:forEach var="WeekDay" items="${course.occurrences}">
+                        <c:out value="${WeekDay} "/>
+                        </c:forEach>
+                        </td>
                         <td><c:out value="${course.startDate}"/></td>
                         <td><c:out value="${course.time}"/></td>
                         <td><c:out value="${course.roomNumber}"/></td>                    
